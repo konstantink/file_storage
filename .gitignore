@@ -1,0 +1,6 @@
+/__pycahce__
+*.sublime-project
+*.sublime-workspace
+*.pyc
+
+/.vscode

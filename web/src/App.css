@@ -1,0 +1,231 @@
+.App {
+    /*text-align: center;*/
+    display: flex;
+    width: 100%;
+}
+
+/*.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}*/
+
+.form-control {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+}
+
+.form-container {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin: 120px auto 0;
+    padding: 64px 48px;
+    width: 250px;
+}
+
+.auth-form-title {
+    font-family: Trebuchet, Verdana, Roboto, Arial;
+    text-align: center;
+    margin: 0 0 48px 0;
+}
+
+.auth-form-error {
+    color: #E51212;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.files-list-inner-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.user-files-list-container {
+    border-bottom: 1px solid rgba(70, 68, 68, 0.3);
+    padding-bottom: 24px;
+}
+
+.files-list-container {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 36px;
+    width: 100%;
+}
+
+.files-list-container .file-container {
+    margin: 24px 36px;
+}
+
+.file-container {
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    width: 200px;
+}
+
+.file-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+}
+
+.file-header img:hover {
+    cursor: pointer;
+}
+
+.file-name {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.file-details {
+    display: flex;
+    font-family: Monaco, "Courier New", Arial;
+    font-size: 12px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.lock-icon {
+    height: 16px;
+    margin-left: 8px;
+    width: 16px;
+}
+
+
+/* Dropzone style */
+
+.dropzone {
+    align-items: center;
+    border: 2px dotted rgba(70, 68, 68, 0.3);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    justify-content: center;
+    margin: 8px;
+    padding: 16px;
+    width: 200px;
+}
+
+.inputzone {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.fileinput {
+    display: none;
+}
+
+.icon {
+    height: 64px;
+    opacity: 0.3;
+    width: 64px;
+}
+
+.highlight {
+    background-color: rgb(188, 185, 236);
+}
+
+/* Upload form styles  */
+
+.title {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 200;
+}
+
+.upload {
+    align-items: flex-start;
+    border: 1px solid rgba(70, 68, 68, 0.3);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    justify-content: space-between;
+    margin: 160px auto 0;
+    overflow: hidden;
+    padding: 36px 48px;
+    text-align: left;
+    width: 600px;
+}
+
+.files {
+    border: 1px solid rgba(70, 68, 68, 0.3);
+    border-radius: 8px;
+    margin-left: 36px;
+    padding: 8px 8px;
+    width: 100%;
+}
+
+.content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    padding-top: 16px;
+    padding-left: 16px;
+    width: 100%;
+}
+
+.actions {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.actions button:not(:last-child) {
+    margin-right: 8px;
+}
+
+.file-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
