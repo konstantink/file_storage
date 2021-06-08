@@ -11,13 +11,17 @@ data and S3 where files are actually stored.
 ## How to run
 Use latest version of Python.
 To run backend part go to the root folder and run following commands:
-`pip install -r requirements.txt`
-`cd api.com`
-`export APIDOTCOM_SECRET_KEY=<SOME_RANDOM_STRING>`
-`uvicorn app:app`
+```bash
+pip install -r requirements.txt
+cd api.com
+export APIDOTCOM_SECRET_KEY=<SOME_RANDOM_STRING>
+uvicorn app:app
+```
 
 To run frontend part from the root folder run:
-`cd web`
-`yarn start`
+```bash
+cd web
+yarn start
+```
 
 Once everything is up and running you should be able to access the app via `http://localhost:3000`.
