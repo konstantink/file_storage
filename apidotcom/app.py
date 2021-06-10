@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import auth_router, files_router
+from . routers import auth_router, files_router
 
 
 origins = [

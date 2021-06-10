@@ -8,10 +8,10 @@ from fastapi import APIRouter, Depends, File, UploadFile, status
 from fastapi.exceptions import HTTPException
 from typing import Dict
 
-from routers.auth import get_current_active_user
-from models import FileOwnerError, StoredFile, StoredFilesList, User, get_files_for_user, get_shared_files,\
+from . auth import get_current_active_user
+from .. models import FileOwnerError, StoredFile, StoredFilesList, User, get_files_for_user, get_shared_files,\
     save_user_file, toggle_private_flag_on_file
-from storage import get_or_create_bucket
+from .. storage import get_or_create_bucket
 
 
 log = logging.getLogger("FilesAPIRouter")
@@ -36,19 +36,18 @@ async def upload_files(current_user: User=Depends(get_current_active_user), file
     today = datetime.utcnow().date()
     bucket = get_or_create_bucket()
     key = "uploads/{}/{}/{}/{}/{}".format(current_user.username, today.year, today.month, today.day, file.filename)
-    # bucket.put_object(
-    #     Body=file.file,
-    #     Key=key,
-    # )
+    bucket.put_object(
+        Body=file.file,
+        Key=key,
+    )
     file = StoredFile(
         username=current_user.username,
         path=key,
         filename=file.filename
     )
 
-    response = save_user_file(json.loads(file.json()))
-    log.warn(response)
-    
+    save_user_file(json.loads(file.json()))
+
     return {"file": file.filename}
 
 
@@ -62,7 +61,6 @@ async def toggle_private_flag(file: StoredFile, file_id: str, current_user: User
             detail="User doesn't own this file"
         )
 
-    log.warn(file)
     if file is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

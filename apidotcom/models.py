@@ -24,7 +24,7 @@ class User(BaseModel):
     email: Optional[str]=None
     first_name: Optional[str]=None
     last_name: Optional[str]=None
-    disabled: bool
+    disabled: bool=False
 
 
 class UserInDB(User):

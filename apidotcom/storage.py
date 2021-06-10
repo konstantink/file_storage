@@ -3,7 +3,7 @@
 import boto3
 import logging
 
-from config import BUCKET_NAME
+from . config import BUCKET_NAME
 
 
 s3_resource = boto3.resource("s3", region_name="eu-central-1")

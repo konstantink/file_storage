@@ -7,8 +7,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext 
 from typing import Optional
 
-from config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
-from models import Token, User, get_user
+from .. config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+from .. models import Token, User, get_user
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/u/signin")
