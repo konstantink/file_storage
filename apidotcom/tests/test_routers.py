@@ -46,6 +46,7 @@ class TestFilesRouter:
     def test_upload_file_authorised(self, mocker, user):
         app.dependency_overrides[files.get_current_active_user] = get_current_active_user_mock(user)
         mocker.patch.object(files, "get_or_create_bucket")
+        mocker.patch.object(files, "save_user_file")
         test_file = io.StringIO("test_file")
         response = client.post("/api/v1/files/upload", files={"file": test_file})
         assert response.status_code == 201
