@@ -9,7 +9,7 @@ from . routers import auth_router, files_router
 origins = [
     "http://localhost:3001",
     "http://127.0.0.1:3001",
-]
+    ]
 
 app = FastAPI()
 
@@ -21,5 +21,4 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
-
+    )

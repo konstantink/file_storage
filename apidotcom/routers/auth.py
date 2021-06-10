@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
-from passlib.context import CryptContext 
+from passlib.context import CryptContext
 from typing import Optional
 
 from .. config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
@@ -18,7 +18,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 router = APIRouter(
     prefix="/api/v1/u",
     tags=["auth"],
-)
+    )
 
 
 def verify_password(plain_password, hashed_password):
@@ -38,7 +38,7 @@ def authenticate_user(username: str, password: str):
     return user
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta]=None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -51,12 +51,12 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta]=None):
     return encode_jwt
 
 
-def get_current_user(token: str=Depends(oauth2_scheme)):
+def get_current_user(token: str = Depends(oauth2_scheme)):
     credential_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
         headers={"WWW-Authenticate": "Bearer"},
-    )
+        )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -72,21 +72,21 @@ def get_current_user(token: str=Depends(oauth2_scheme)):
     return user
 
 
-def get_current_active_user(user: User=Depends(get_current_user)):
+def get_current_active_user(user: User = Depends(get_current_user)):
     if user.disabled:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user")
     return user
 
 
 @router.post("/signin", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm=Depends()):
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+            )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
 
@@ -94,5 +94,5 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm=Depends())
 
 
 @router.get("/whoami", response_model=User)
-async def verify_token(current_user: User=Depends(get_current_active_user)):
+async def verify_token(current_user: User = Depends(get_current_active_user)):
     return current_user

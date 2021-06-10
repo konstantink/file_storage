@@ -10,10 +10,11 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 
+log = logging.getLogger("models")
+
+
 def get_dynamodb():
     return boto3.resource('dynamodb')
-
-log = logging.getLogger("models")
 
 
 class FileOwnerError(Exception):
@@ -25,7 +26,7 @@ class User(BaseModel):
     email: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
-    disabled: bool=False
+    disabled: bool = False
 
 
 class UserInDB(User):
@@ -38,12 +39,12 @@ class Token(BaseModel):
 
 
 class StoredFile(BaseModel):
-    id: uuid.UUID=Field(default_factory=uuid.uuid4)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
     username: str
     path: str
-    date_created: Optional[datetime]=Field(default_factory=datetime.utcnow)
-    filename: Optional[str]=None
-    is_private: Optional[bool]=True
+    date_created: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    filename: Optional[str] = None
+    is_private: Optional[bool] = True
     # shared_url: Optional[str]=None
 
 
@@ -60,16 +61,16 @@ def get_or_create_user_table():
             KeySchema=[{
                 "AttributeName": "username",
                 "KeyType": "HASH",
-            }],
+                }],
             AttributeDefinitions=[{
                 "AttributeName": "username",
                 "AttributeType": "S"
-            }],
+                }],
             ProvisionedThroughput={
                 "WriteCapacityUnits": 5,
                 "ReadCapacityUnits": 10
-            },
-        )
+                },
+            )
         table.meta.client.get_waiter("table_exists").wait(TableName="users")
     except dynamodb.meta.client.exceptions.ResourceInUseException:
         table = dynamodb.Table("users")
@@ -85,33 +86,33 @@ def get_or_create_file_table():
             KeySchema=[{
                 "AttributeName": "id",
                 "KeyType": "HASH",
-            }],
+                }],
             AttributeDefinitions=[{
                 "AttributeName": "id",
                 "AttributeType": "S"
-            }, {
+                }, {
                 "AttributeName": "username",
                 "AttributeType": "S",
-            }],
+                }],
             GlobalSecondaryIndexes=[{
                 "IndexName": "username",
                 "KeySchema": [{
                     "AttributeName": "username",
                     "KeyType": "HASH"
-                }],
+                    }],
                 "Projection": {
                     "ProjectionType": "ALL",
-                },
+                    },
                 "ProvisionedThroughput": {
                     "WriteCapacityUnits": 2,
                     "ReadCapacityUnits": 5
-                },
-            }],
+                    },
+                }],
             ProvisionedThroughput={
                 "WriteCapacityUnits": 5,
                 "ReadCapacityUnits": 10
-            },
-        )
+                },
+            )
     except dynamodb.meta.client.exceptions.ResourceInUseException:
         table = dynamodb.Table("files")
 
@@ -151,7 +152,7 @@ def toggle_private_flag_on_file(file_id: str, username: str):
     table = get_or_create_file_table()
     response = table.get_item(
         Key={"id": file_id},
-    )
+        )
     if "Item" in response:
         file = StoredFile(**response["Item"])
         if file.username != username:
@@ -161,5 +162,5 @@ def toggle_private_flag_on_file(file_id: str, username: str):
             UpdateExpression="set is_private = :p",
             ExpressionAttributeValues={":p": not file.is_private},
             ReturnValues="ALL_NEW"
-        )
+            )
         return StoredFile(**response["Attributes"])
