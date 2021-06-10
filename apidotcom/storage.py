@@ -6,11 +6,13 @@ import logging
 from . config import BUCKET_NAME
 
 
-s3_resource = boto3.resource("s3", region_name="eu-central-1")
+def get_s3():
+    return boto3.resource("s3", region_name="eu-central-1")
 
 log = logging.getLogger("Storage")
 
 def get_or_create_bucket():
+    s3_resource = get_s3()
     try:
         bucket = s3_resource.create_bucket(
             # ACL="authenticated-read",

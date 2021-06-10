@@ -10,7 +10,8 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 
-dynamodb = boto3.resource('dynamodb')
+def get_dynamodb():
+    return boto3.resource('dynamodb')
 
 log = logging.getLogger("models")
 
@@ -21,9 +22,9 @@ class FileOwnerError(Exception):
 
 class User(BaseModel):
     username: str
-    email: Optional[str]=None
-    first_name: Optional[str]=None
-    last_name: Optional[str]=None
+    email: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
     disabled: bool=False
 
 
@@ -52,6 +53,7 @@ class StoredFilesList(BaseModel):
 
 
 def get_or_create_user_table():
+    dynamodb = get_dynamodb()
     try:
         table = dynamodb.create_table(
             TableName="users",
@@ -76,6 +78,7 @@ def get_or_create_user_table():
 
 
 def get_or_create_file_table():
+    dynamodb = get_dynamodb()
     try:
         table = dynamodb.create_table(
             TableName="files",
